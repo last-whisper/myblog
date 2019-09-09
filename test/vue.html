@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <style>
+        .red{color:red}
+    </style>
+</head>
+<body>
+    <div id="app" :title="title">
+        {{message}}
+        <li v-for="(value,name,index) in list">
+            {{index}}:{{name}}-{{value}}
+        </li>
+        <button @click="Vue.set(list,'age',20)">add list</button>
+        <hr v-if="seem">
+        <button @click="hide">button</button>
+        <p>{{mvvm}}</p>
+        <input type="text" v-model="mvvm">
+        <my-component :params="send"></my-component>
+        <button @click="changeEvent">change event</button>   
+        <button @[event]="someEvent">触发事件</button>    
+        <p>反转后的消息：{{reverseMessage}}</p>
+        <p :class="computedClass">bind class</p>
+        <son-component  :post.sync="son.data"></son-component>     
+    </div>
+
+    <!-- vue使用JSX -->
+    <script type="text/x-template"></script>
+
+    <script>
+        Vue.component('my-component',{
+            template:'<li>自定义组件{{params}}</li>',
+            props:['params']
+        })
+        
+        //测试子组件向父组件通讯
+        Vue.component('son-component',{
+            template:'<button @click="emitFunc">{{post}}</button>',
+            props:['post'],
+            methods:{
+                emitFunc(){
+                    this.$emit('update:post','修改props')
+                }
+            }
+        })
+
+    
+        /*
+            每个VUE应用都是通过Vue函数创建的一个新的Vue实例开始的，
+            所有的vue组件都是实例，根实例有一些特殊的选项
+        */
+        /*
+            当一个vue实例被创建，它将data对象中所有的属性加入到vue的响应式
+            系统中
+        */
+        /*
+            实例被创建时的一系列初始化过程，设置数据监听，编译模板，挂载实例，
+            运行钩子函数，给了用户在不同阶段添加代码的机会
+
+            created:实例被创建之后执行的代码
+
+        */
+        let app = new Vue({
+            el:'#app',
+            data(){
+                return {
+                message:'hello world',
+                title:'this is vue',
+                list:{
+                    name:'liuyang',
+                    z:'zhangsan',
+                    a:'lisi'
+                },
+                seem:true,
+                mvvm:"请输入",
+                send:'传递的值',
+                event:'click',
+                son:{
+                    data:'传递给子组件的数据'
+                }
+            }
+            },
+            methods:{
+                hide(){
+                    this.seem = !this.seem
+                },
+                changeEvent(){
+                    this.event = this.event === 'click' ? 'mouseover' : 'click'
+                },
+                someEvent(params){
+                    let message = this.event === 'click' ? 'click' : 'mouseover'
+                    alert('now event is'+ message)
+                },
+                myEmit(params){
+                    alert(params)
+                }
+            },
+            computed:{
+                reverseMessage(){
+                    return Array.from(this.message).reverse().join('')
+                },
+                computedClass(){
+                    let params = 'red'
+                    return {
+                        red:params === 'red' ? true : false ,
+                        balck:params === 'red' ? false : true
+                    }
+                }
+            }
+            /*
+                created(){
+                alert('created')
+                },
+                beforeMount(){
+                    alert('beforeMounted')
+                },
+                mounted(){
+                    alert('mounted')
+                },
+                beforeUpdate(){
+                    alert('beforeupdate')
+                },
+                updated(){
+                    alert('updated')
+                }
+            */
+            
+        })
+        
+        
+    </script>
+</body>
+</html>

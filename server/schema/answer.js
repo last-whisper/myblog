@@ -1,0 +1,29 @@
+const Mongoose = require('mongoose')
+module.exports = new Mongoose.Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+    questionId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Question"
+    },
+    createTime:{
+        type:Date,
+        default:Date.now
+    },
+    content:String,
+    usefull:{
+        type:Number,
+        default:0
+    },
+    useless:{
+        type:Number,
+        default:0
+    },
+    isAdopt:Boolean,//是否被采纳
+    reply:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Answer"
+    }]
+})

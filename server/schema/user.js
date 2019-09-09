@@ -1,0 +1,70 @@
+const mongoose = require('mongoose');
+module.exports = new mongoose.Schema({
+    username:String,
+    password:String,
+    nickname:String,
+    github:{
+        type:String,
+        default:''
+    },
+    location:{
+        type:String,
+        default:''
+    },
+    createTime:{
+        type:Date,
+        default:Date.now
+    },
+    lastLoading:{
+        type:Date,
+        default:Date.now
+    },
+    follow:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }],
+    fans:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    }],
+    acountType:{
+        type:String,
+        default:"normal"
+    },
+    avatar:{
+        type:String,
+        default:'public/image/default-avatar-1.jpg'
+    },
+    autograph:{
+        type:String,
+        default:''
+    },
+    tag:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Tag"
+    }],
+    exp:{
+        type:Number,
+        default:0
+    },
+    custommCategory:[{
+        category:String,
+        query:String
+    }],
+    collectionBlog:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Blog"
+    }],
+    collectionQuestion:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Question"
+    }],
+    //被邀请回答的问题
+    inviteToAnswer:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Question"
+    }]
+
+
+    
+})

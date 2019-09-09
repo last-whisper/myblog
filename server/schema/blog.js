@@ -1,0 +1,45 @@
+const Mongoose = require('mongoose')
+module.exports = new Mongoose.Schema({
+    userId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
+    },
+    title:String,
+    createTime:{
+        type:Date,
+        default:Date.now
+    },
+    lastModify:{
+        type:Date,
+        default:Date.now
+    },
+    content:String,
+    tag:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Tag"
+    }],
+    usefull:{
+        type:Number,
+        default:0
+    },
+    useless:{
+        type:Number,
+        default:0
+    },
+    browse:{
+        type:Number,
+        default:0
+    },
+    customCategory:{
+        type:String,
+        default:''
+    },
+    read:{
+        type:Number,
+        default:0
+    },
+    commentsNum:{
+        type:Number,
+        default:0
+    }
+})

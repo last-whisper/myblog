@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <img src="http://localhost:3000/public/image/test.jpg" alt="">
+    <script>
+        function Point(x,y){
+            this.x = x;
+            this.y = y;
+        }
+        function add(){
+            return this.x + this.y
+        }
+        function plus(){
+            return this.x*this.y
+        }
+        Object.assign(Point.prototype,{add,plus})
+
+        let point = new Point(5,6)
+        //console.log(point.add(),point.plus())
+    </script>
+    <script>
+        //类的数据类型就是函数
+        class Whisper{
+            //constructor就是构造方法，其实也是Whisper.prototype上的一个方法
+            constructor(x,y){
+                //this代表实例
+                //显示定义在实例上的属性，否则都定义在原型上
+                this.x = x
+                this.y = y
+            }
+            //类上定义的方法全是不可枚举，与ES5不一样
+            add(){
+                return this.x+this.y
+            }
+            plus(){
+                return this.x*this.y
+            }
+            //存储器属性实在原型对象的html的属性特性上
+            //Object.getOwnPropertyDescriptor(Whisper.prototype,'html')
+            get html(){
+                return 'html'
+            }
+            set html(param){
+                this.x = param
+            }
+        }
+        let whisper =new Whisper(1,2)
+        whisper.html = 'set html'
+        //console.log(whisper.add(),whisper.plus(),whisper.x)
+    </script>
+    <script>
+        let Last = class some{
+            constructor(x,y){
+                this.x = x
+                this.y = y
+            }
+        }
+        let last = new Last(1,2)
+        //console.log(last.x,last.y)
+    </script>
+    <!-- 解构赋值可以从原型上获取值 -->
+    <script>
+        class Abc{
+            //x=1相当于在constructor中给实例定义的属性
+            x = 1
+            /*
+             * 使用箭头函数可将someP的this指向绑定为实例，在解构赋值中
+             * 单独调用此函数，this指向仍然是实例，否则是undefined
+             */ 
+        
+            someP=()=>{
+                console.log(this.x)
+            }
+        }
+        let abc = new Abc(1)
+        let {someP} = abc
+        someP()
+    </script>
+    <script>
+        class Smethod{
+            //静态方法中的this指向类，而不是实例
+            static bar(){
+                this.foo()
+            }
+            static foo(){
+                console.log('this is static method')
+            }
+            foo(){
+                console.log('not static method')
+            }
+        }
+        //子类可以继承父类的静态方法
+        class Son extends Smethod{
+            //实例属性也可以直接定义在类的最顶端，一目了然
+            count = 1
+        }
+        Son.bar()
+
+        class Sproperty{
+            //静态属性
+            static myspro = 'myspro'
+        }
+    </script>
+
+    <script>
+        class Widget{
+            fzz(){
+                
+            }
+            //使用_开头的标记为类的私有方法，表意该方法是类内部使用的
+            _fzz(){
+
+            }
+            
+        }
+        new Widget().fzz()
+    </script>
+</body>
+</html>

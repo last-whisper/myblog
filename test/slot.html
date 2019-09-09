@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+    <div id="app">
+        <my-slot>
+            <template v-slot:default="slotProps">
+                作用域插槽（访问子组件内部的数据）{{slotProps.slotData.name}}
+            </template> 
+        </my-slot>
+    </div>
+    <script>
+        Vue.component('my-slot',{
+            data(){
+                return {
+                    slotData:{
+                        name:'liu',
+                        age:20
+                    }
+                }
+            },
+            methods:{
+                myfunc(){
+                    console.log(11)
+                    this.$emit('my-event','use $on')
+                }
+            },
+            template:'<button @click=myfunc>{{this.$parent.rootData}}<slot :slotData=slotData>{{slotData.age}}</slot></button>'
+        })
+        let app =new Vue({
+            el:'#app',
+            data:{
+                rootData:'this is rootData~'
+            },
+        })
+    </script>
+</body>
+</html>

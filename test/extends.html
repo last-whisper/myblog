@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        //子类必须在constructor中调用super(),子类的this必须先通过父类的构造函数完成塑造
+        //得到与父类同样的实例属性和方法，然后再加工
+
+        /*
+            es5的继承是先创造子类的实例对象this，再将父类的方法
+            添加到this上
+            es6是先将父类的实例对象的属性和方法加到this上，再通过
+            子类的构造函数修改this
+        */
+       
+    </script>
+    <script>
+        class F{
+            constructor(x = 0,y = 1){
+                this.x = x
+                this.y = y
+            }
+            add(){
+                console.log(this.x+this.y)
+            }
+        }
+        class S extends F{
+            constructor(x = 2,y = 3,z){
+                super(x,y)
+            }
+        }
+        //
+        new S().add()
+        //super这个东西吧，调用的是父类的方法或属性，方法或属性中的this却是指向子类或子类实例
+        console.log(S.__proto__,)
+    </script>
+</body>
+</html>
